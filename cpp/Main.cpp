@@ -1,13 +1,11 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <list>
-#include <vector>
 #include "Petshop.cpp"
 
 using namespace std;
 
 int main() {
-
     //Inisialisasi variabel yang dibutuhkan
     int i, n = 0;
     string id, name, category;
@@ -19,140 +17,164 @@ int main() {
     //Masukan jumlah data yang akan diinput
     cout << "Input jumlah data: ";
     cin >> n;
+    cin.ignore(); // Membersihkan buffer
 
     //Looping untuk menginput data
-    for(i = 0; i < n; i++){
-
+    for(i = 0; i < n; i++) {
+        cout << "\nData ke-" << i+1 << endl;
         //Inisialisasi objek Petshop pada setiap proses looping
-        Petshop temp;
+        cout << "ID: ";
+        getline(cin, id);
+        cout << "Nama: ";
+        getline(cin, name);
+        cout << "Kategori: ";
+        getline(cin, category);
+        cout << "Harga: ";
+        cin >> price;
+        cin.ignore(); // Membersihkan buffer
 
-        cin >> id >> name >> category >> price;
-        temp.setIdProduct(id);
-        temp.setNameProduct(name);
-        temp.setCategoryProduct(category);
-        temp.setPriceProduct(price);
-
+        Petshop temp(id, name, category, price); // Menggunakan constructor langsung
         daftar.push_back(temp);
-       
     }
 
     //Menampilkan data awal
-    cout << "Data yang telah diinput: " << '\n';
+    cout << "\nData yang telah diinput: " << endl;
     i = 0;
     for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++){
-        cout << "Data ke-" << i+1 << '\n';
-        cout << "ID: " << j->getIdProduct() << '\n';
-        cout << "Name: " << j->getNameProduct() << '\n';
-        cout << "Category: " << j->getCategoryProduct() << '\n';
-        cout << "Price: " << j->getPriceProduct() << '\n';
-        cout << '\n';
+        cout << "Data ke-" << i+1 << endl;
+        cout << "ID: " << j->getIdProduct() << endl;
+        cout << "Name: " << j->getNameProduct() << endl;
+        cout << "Category: " << j->getCategoryProduct() << endl;
+        cout << "Price: " << j->getPriceProduct() << endl;
+        cout << endl;
         i++;
     }
     
-    //Query yang diingankan
+    //Fitur yang diinginkan
     char fitur;
 
     do {
-        cout << "Fitur yang tersedia: " << '\n';
-        cout << "- V -> Menampilkan semua data" << '\n';
-        cout << "- C -> Menambahkan data" << '\n';
-        cout << "- U -> Mengedit data" << '\n';
-        cout << "- D -> Menghapus data" << '\n';
-        cout << "- S -> Mencari data sesuai nama produk" << '\n';
-        cout << "- E -> Keluar (Exit)" << '\n';
+        cout << "\nFitur yang tersedia: " << endl;
+        cout << "- V -> Menampilkan semua data" << endl;
+        cout << "- C -> Menambahkan data" << endl;
+        cout << "- U -> Mengedit data" << endl;
+        cout << "- D -> Menghapus data" << endl;
+        cout << "- S -> Mencari data sesuai nama produk" << endl;
+        cout << "- E -> Keluar (Exit)" << endl;
 
         //Masukan fitur yang diinginkan
         cout << "Pilih fitur: ";
         cin >> fitur;
-
+        cin.ignore(); // Membersihkan buffer
+        
         string target;
-
-        if(fitur == 'V'){
-            cout << "Data yang tersedia: " << '\n';
+        
+        //Looping untuk setiap fitur
+        if(fitur == 'V') {
+            cout << "\nData yang tersedia: " << endl;
             i = 0;
-
             for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++){
-                cout << "Data ke-" << i+1 << '\n';
-                cout << "ID: " << j->getIdProduct() << '\n';
-                cout << "Name: " << j->getNameProduct() << '\n';
-                cout << "Category: " << j->getCategoryProduct() << '\n';
-                cout << "Price: " << j->getPriceProduct() << '\n';
-                cout << '\n';
+                cout << "Data ke-" << i+1 << endl;
+                cout << "ID: " << j->getIdProduct() << endl;
+                cout << "Name: " << j->getNameProduct() << endl;
+                cout << "Category: " << j->getCategoryProduct() << endl;
+                cout << "Price: " << j->getPriceProduct() << endl;
+                cout << endl;
                 i++;
             }
 
-        }else if(fitur == 'C') {
+        } else if(fitur == 'C') {
+            cout << "\nMasukkan Data Baru:" << endl;
+            cout << "ID: ";
+            getline(cin, id);
+            cout << "Nama: ";
+            getline(cin, name);
+            cout << "Kategori: ";
+            getline(cin, category);
+            cout << "Harga: ";
+            cin >> price;
+            cin.ignore();
 
-            cout << "Masukkan Data Baru: ";
-
-            Petshop temp;
-            cin >> id >> name >> category >> price;
-
-            temp.setIdProduct(id);
-            temp.setNameProduct(name);
-            temp.setCategoryProduct(category);
-            temp.setPriceProduct(price);
-
+            Petshop temp(id, name, category, price);
             daftar.push_back(temp);
 
-            cout << "Data berhasil ditambahkan" << '\n';
+            cout << "Data berhasil ditambahkan" << endl;
             
-        }else if(fitur == 'U'){
+        } else if(fitur == 'U') {
+            cout << "Masukan ID yang akan diupdate: ";
+            getline(cin, target);
+            bool found = false;
             
-            cout << "Masukan ID yang akan diupdate: " << '\n';
-            cin >> target;
-            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++){
-                
-                if((*j).getIdProduct().compare(target) == 0){
+            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++) {
+                if(j->getIdProduct() == target) {
+                    cout << "\nMasukkan data baru:" << endl;
+                    cout << "ID: ";
+                    getline(cin, id);
+                    cout << "Nama: ";
+                    getline(cin, name);
+                    cout << "Kategori: ";
+                    getline(cin, category);
+                    cout << "Harga: ";
+                    cin >> price;
+                    cin.ignore();
 
-                    cout << "Masukkan data baru: ";
-                    cin >> id >> name >> category >> price;
-
-                    (*j).setIdProduct(id);
-                    (*j).setNameProduct(name);
-                    (*j).setCategoryProduct(category);
-                    (*j).setPriceProduct(price);
+                    j->setIdProduct(id);
+                    j->setNameProduct(name);
+                    j->setCategoryProduct(category);
+                    j->setPriceProduct(price);
                     
-                    cout << "Data berhasil diupdate" << '\n';
+                    cout << "Data berhasil diupdate" << endl;
+                    found = true;
+                    
                 }
             }
-            
-        }else if(fitur == 'D'){
-            
-            cout << "Masukan ID Produk yang akan diupdate: " << '\n';
-            cin >> target;
-            
-            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++){
-                
-                if((*j).getIdProduct().compare(target) == 0){
-                    j = daftar.erase(j);
-                    cout << "Data berhasil dihapus" << '\n';
-                }
+            if (!found) {
+                cout << "ID tidak ditemukan" << endl;
             }
             
-        }else if(fitur == 'S'){
+        } else if(fitur == 'D') {
+            cout << "Masukan ID Produk yang akan dihapus: ";
+            getline(cin, target);
+            bool found = false;
             
-            cout << "Masukan Nama Produk yang akan dicari: " << '\n';
-            cin >> target;
+            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++) {
+                if(j->getIdProduct() == target) {
+                    daftar.erase(j);
+                    cout << "Data berhasil dihapus" << endl;
+                    found = true;
+                }
+            }
+            if (!found) {
+                cout << "ID tidak ditemukan" << endl;
+            }
+            
+        } else if(fitur == 'S') {
+            cout << "Masukan Nama Produk yang akan dicari: ";
+            getline(cin, target);
+            bool found = false;
 
-            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++){
-                if((*j).getNameProduct().compare(target) == 0){
-                    Petshop temp = *j;
-                    j = daftar.end();
-                    cout << "Data ditemukan: " << '\n';
-                    cout << "ID: " << j->getIdProduct() << '\n';
-                    cout << "Name: " << j->getNameProduct() << '\n';
-                    cout << "Category: " << j->getCategoryProduct() << '\n';
-                    cout << "Price: " << j->getPriceProduct() << '\n';
-                    cout << '\n';
+            for(list<Petshop>::iterator j = daftar.begin(); j != daftar.end(); j++) {
+                if(j->getNameProduct() == target) {
+                    cout << "\nData ditemukan:" << endl;
+                    cout << "ID: " << j->getIdProduct() << endl;
+                    cout << "Name: " << j->getNameProduct() << endl;
+                    cout << "Category: " << j->getCategoryProduct() << endl;
+                    cout << "Price: " << j->getPriceProduct() << endl;
+                    found = true;
+                    
                 }
             }
+            if (!found) {
+                cout << "Produk tidak ditemukan" << endl;
+            }
+        }else if(fitur == 'E') {
+            cout << "\nProgram selesai" << endl;
+            
+        } else {
+            cout << "Input tidak valid" << endl;
         }
         
     } while (fitur != 'E');
 
-    cout << "Program selesai" << '\n';
-
     return 0;
-    
 }
